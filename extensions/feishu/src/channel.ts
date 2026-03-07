@@ -960,18 +960,19 @@ export const feishuPlugin: ChannelPlugin<ResolvedFeishuAccount, FeishuProbeResul
           // Migration warning: dmPolicy default changed from 'open' to 'pairing' in v2026.2.14.
           // Warn once per account per session when dmPolicy was not explicitly set by the user.
           if (!warnedDmPolicyMigration.has(ctx.accountId)) {
-            warnedDmPolicyMigration.add(ctx.accountId);
             const rawFeishu = ctx.cfg.channels?.feishu as FeishuConfig | undefined;
             const accountsMap = rawFeishu?.accounts;
             const isMultiAccount = accountsMap != null && Object.keys(accountsMap).length > 0;
-            // In multi-account mode, account-level dmPolicy is undefined when not explicitly set
-            // (FeishuAccountConfigSchema uses .optional() without .default()).
-            // In single-account mode, Zod applies the schema default ("pairing"), so we check
-            // whether the resolved value is "pairing" as the best available signal.
+            // In multi-account mode, account-level dmPolicy is undefined when not explicitly set.
+            // Root-level "open" means the user deliberately opted in, so skip the warning.
+            // In single-account mode, Zod applies the schema default ("pairing"), so warn when
+            // the resolved value is "pairing" as the best available signal.
             const dmPolicyImplicit = isMultiAccount
-              ? accountsMap[ctx.accountId]?.dmPolicy === undefined
+              ? accountsMap[ctx.accountId]?.dmPolicy === undefined &&
+                rawFeishu?.dmPolicy !== "open"
               : rawFeishu?.dmPolicy === "pairing";
             if (dmPolicyImplicit) {
+              warnedDmPolicyMigration.add(ctx.accountId);
               ctx.log?.warn(
                 `[feishu] Feishu dmPolicy default changed from 'open' to 'pairing' in v2026.2.14. ` +
                   `If your bot stopped responding to DMs, add \`dmPolicy: 'open'\` to your Feishu config. ` +
@@ -988,7 +989,6 @@ export const feishuPlugin: ChannelPlugin<ResolvedFeishuAccount, FeishuProbeResul
           });
         },
       },
-    },
     security: {
       collectWarnings: projectConfigAccountIdWarningCollector<{
         cfg: ClawdbotConfig;
