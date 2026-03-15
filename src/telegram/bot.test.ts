@@ -1240,10 +1240,9 @@ describe("createTelegramBot", () => {
     });
 
     expect(replySpy).not.toHaveBeenCalled();
-    expect(sendMessageSpy).toHaveBeenCalledWith(
-      12345,
-      "You are not authorized to use this command.",
-    );
+    expect(sendMessageSpy).toHaveBeenCalledTimes(1);
+    expect(sendMessageSpy.mock.calls[0]?.[0]).toBe(12345);
+    expect(sendMessageSpy.mock.calls[0]?.[1]).toBe("You are not authorized to use this command.");
   });
 
   it("registers message_reaction handler", () => {

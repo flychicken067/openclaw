@@ -104,9 +104,21 @@ vi.mock("./sent-message-cache.js", () => ({
 
 export const useSpy: MockFn<(arg: unknown) => void> = vi.fn();
 export const middlewareUseSpy: AnyMock = vi.fn();
-export const onSpy: AnyMock = vi.fn();
+
+const onHandlerMap = new Map<string, (ctx: Record<string, unknown>) => Promise<void>>();
+const commandHandlerMap = new Map<string, (ctx: Record<string, unknown>) => Promise<void>>();
+
+const onImpl = (event: string, handler: (ctx: Record<string, unknown>) => Promise<void>) => {
+  onHandlerMap.set(event, handler);
+};
+export const onSpy: AnyMock = vi.fn(onImpl) as AnyMock;
+
 export const stopSpy: AnyMock = vi.fn();
-export const commandSpy: AnyMock = vi.fn();
+
+const commandImpl = (command: string, handler: (ctx: Record<string, unknown>) => Promise<void>) => {
+  commandHandlerMap.set(command, handler);
+};
+export const commandSpy: AnyMock = vi.fn(commandImpl) as AnyMock;
 export const botCtorSpy: AnyMock = vi.fn();
 export const answerCallbackQuerySpy: AnyAsyncMock = vi.fn(async () => undefined);
 export const sendChatActionSpy: AnyMock = vi.fn();
@@ -204,7 +216,8 @@ vi.mock("../auto-reply/reply.js", () => ({
 }));
 
 export const getOnHandler = (event: string) => {
-  const handler = onSpy.mock.calls.find((call) => call[0] === event)?.[1];
+  const handler =
+    onHandlerMap.get(event) ?? onSpy.mock.calls.find((call) => call[0] === event)?.[1];
   if (!handler) {
     throw new Error(`Missing handler for event: ${event}`);
   }
@@ -281,8 +294,12 @@ beforeEach(() => {
   readChannelAllowFromStore.mockResolvedValue([]);
   upsertChannelPairingRequest.mockReset();
   upsertChannelPairingRequest.mockResolvedValue({ code: "PAIRCODE", created: true } as const);
+  onHandlerMap.clear();
+  commandHandlerMap.clear();
   onSpy.mockReset();
+  onSpy.mockImplementation(onImpl);
   commandSpy.mockReset();
+  commandSpy.mockImplementation(commandImpl);
   stopSpy.mockReset();
   useSpy.mockReset();
   replySpy.mockReset();
