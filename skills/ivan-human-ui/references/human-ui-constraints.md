@@ -1,4 +1,4 @@
-# De-AI Constraints
+# Ivan Human UI Constraints
 
 Use this file as the hard constraint pack when redesigning marketing pages or dashboards.
 

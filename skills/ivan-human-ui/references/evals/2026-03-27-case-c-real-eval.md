@@ -15,8 +15,8 @@
 ## Commands
 
 ```bash
-node skills/de-ai-design/scripts/verify_testimonial_tracks.mjs skills/de-ai-design/assets/eval-case-c-before/index.html
-node skills/de-ai-design/scripts/verify_testimonial_tracks.mjs skills/de-ai-design/assets/eval-case-c-after/index.html
+node skills/ivan-human-ui/scripts/verify_testimonial_tracks.mjs skills/ivan-human-ui/assets/eval-case-c-before/index.html
+node skills/ivan-human-ui/scripts/verify_testimonial_tracks.mjs skills/ivan-human-ui/assets/eval-case-c-after/index.html
 ```
 
 ## Results

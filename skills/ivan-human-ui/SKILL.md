@@ -1,9 +1,9 @@
 ---
-name: de-ai-design
-description: Remove common AI-looking web/slides design patterns and refactor pages into human-crafted, production-ready UI. Use when users ask to remove "AI vibe/AI taste", make output less template-generated, tighten visual craft, or enforce explicit layout/typography/color/component constraints for landing pages, dashboards, and presentation-like pages.
+name: ivan-human-ui
+description: Ivan's human-UI polish skill for removing AI-looking web/slides patterns and shipping clearer, more intentional pages. Use when users ask to remove "AI vibe/AI taste", make output less template-generated, tighten visual craft, or enforce explicit layout/typography/color/component constraints for landing pages, dashboards, and presentation-like pages.
 ---
 
-# De-AI Design
+# Ivan Human UI
 
 Apply concrete constraints that make generated UI feel intentional instead of generic, then evaluate the result with measurable checks.
 
@@ -15,7 +15,7 @@ Apply concrete constraints that make generated UI feel intentional instead of ge
    - Before full rewrite, create 2-3 compact visual directions from `references/style-directions.md`.
    - Let the user react to concrete options instead of abstract adjectives.
 3. Apply hard constraints.
-   - Use `references/de-ai-constraints.md` as non-negotiable implementation guardrails.
+   - Use `references/human-ui-constraints.md` as non-negotiable implementation guardrails.
    - Implement from structure -> typography -> color -> components -> spacing polish.
 4. Enforce concrete edits only.
    - Specify explicit class/token/value changes.

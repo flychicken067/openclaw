@@ -17,7 +17,7 @@ Run this when you want a fast quality check with minimal overhead.
 - If assets exist, run checks from `image-visibility-checks.md`.
 - Confirm required tracks when relevant: animal, abstract, business.
 - For case-c style testimonial checks, run:
-  - `node skills/de-ai-design/scripts/verify_testimonial_tracks.mjs <path/to/index.html>`
+  - `node skills/ivan-human-ui/scripts/verify_testimonial_tracks.mjs <path/to/index.html>`
 
 ## Step 4: Score
 
