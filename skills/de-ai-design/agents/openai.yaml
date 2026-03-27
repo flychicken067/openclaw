@@ -1,0 +1,4 @@
+interface:
+  display_name: "De-AI Design"
+  short_description: "Remove AI-looking patterns with concrete UI constraints."
+  default_prompt: "Use this skill to remove AI-looking design patterns and refactor the page into a clean, intentional, human-crafted UI with explicit constraints and verification."
